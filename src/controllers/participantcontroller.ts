@@ -5,7 +5,7 @@ export class Participantcontroller{
 
     async getAllEvents(req:Request, res: Response){ // Mostra todos os eventos ao usuario
         try {
-            const events = await prismaClient.eventos.findMany();
+            const events = await prismaClient.events.findMany();
             res.json(events);
           } catch (error) {
             res.status(500).json({ error: 'Error fetching events' });
@@ -16,7 +16,7 @@ export class Participantcontroller{
     async getEventByLocal(req:Request, res: Response){ // Mostra os eventos de acordo com o local pedido pelo usuario
         const { local } = req.params;
     try {
-      const events = await prismaClient.eventos.findMany({
+      const events = await prismaClient.events.findMany({
         where: {
           local: local,
         },
@@ -30,7 +30,7 @@ export class Participantcontroller{
     async getEventByHour(req:Request, res: Response){ // Mostra os eventos de acordo com a data pedida pelo usuario
         const { hour } = req.params;
     try {
-      const events = await prismaClient.eventos.findMany({
+      const events = await prismaClient.events.findMany({
         where: {
           data: new Date(hour),
         },
@@ -44,7 +44,7 @@ export class Participantcontroller{
     async getEventByCategory(req:Request, res: Response){  // Mostra todos os eventos de acordo com a categoria pedida pelo usuario
         const { category } = req.params;
     try {
-      const events = await prismaClient.eventos.findMany({
+      const events = await prismaClient.events.findMany({
         where: {
           categoria: category,
         },
