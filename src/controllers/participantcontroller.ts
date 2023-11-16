@@ -5,10 +5,10 @@ export class Participantcontroller{
 
     async getAllEvents(req:Request, res: Response){ // Mostra todos os eventos ao usuario
         try {
-            const events = await prismaClient.events.findMany();
+            const events = await prismaClient.event.findMany();
             res.json(events);
           } catch (error) {
-            res.status(500).json({ error: 'Error fetching events' });
+            res.status(500).json({ error: 'Erro na busca pelos eventos' });
           }
 
     }
@@ -16,42 +16,42 @@ export class Participantcontroller{
     async getEventByLocal(req:Request, res: Response){ // Mostra os eventos de acordo com o local pedido pelo usuario
         const { local } = req.params;
     try {
-      const events = await prismaClient.events.findMany({
+      const events = await prismaClient.event.findMany({
         where: {
           local: local,
         },
       });
       res.json(events);
     } catch (error) {
-      res.status(500).json({ error: 'Error fetching events by local' }); 
+      res.status(500).json({ error: 'Erro ao tentar achar os eventos deste local' }); 
     }
     }
 
     async getEventByHour(req:Request, res: Response){ // Mostra os eventos de acordo com a data pedida pelo usuario
         const { hour } = req.params;
     try {
-      const events = await prismaClient.events.findMany({
+      const events = await prismaClient.event.findMany({
         where: {
-          data: new Date(hour),
+          date: new Date(hour),
         },
       });
       res.json(events);
     } catch (error) {
-      res.status(500).json({ error: 'Error fetching events by hour' });
+      res.status(500).json({ error: 'Erro ao tentar achar os eventos deste Horario' });
     }
     }
 
     async getEventByCategory(req:Request, res: Response){  // Mostra todos os eventos de acordo com a categoria pedida pelo usuario
         const { category } = req.params;
     try {
-      const events = await prismaClient.events.findMany({
+      const events = await prismaClient.event.findMany({
         where: {
-          categoria: category,
+          category: category,
         },
       });
       res.json(events);
     } catch (error) {
-      res.status(500).json({ error: 'Error fetching events by category' });
+      res.status(500).json({ error: 'Erro ao tentar achar os eventos desta categoria' });
     }
         
     }
