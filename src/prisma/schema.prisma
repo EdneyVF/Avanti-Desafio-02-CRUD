@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,11 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Eventos {
-  id         Int      @id @default(uuid())
+model Event {
+  id         String   @id @default(uuid())
   name       String
-  categoryId Int // Relacionamento com a tabela Category
-  locationId Int // Relacionamento com a tabela Location
+  categoryId String // Relacionamento com a tabela Category
+  locationId String // Relacionamento com a tabela Local
   date       DateTime
   created_at DateTime @default(now())
   category   Category @relation(fields: [categoryId], references: [id])
@@ -24,17 +21,17 @@ model Eventos {
 }
 
 model Category {
-  id     Int       @id @default(uuid())
-  name   String
-  events Eventos[]
+  id      String  @id @default(uuid())
+  name    String
+  eventos Event[]
 
   @@map("category")
 }
 
 model Local {
-  id     Int       @id @default(uuid())
-  name   String
-  events Eventos[]
+  id      String  @id @default(uuid())
+  name    String
+  eventos Event[]
 
   @@map("local")
 }

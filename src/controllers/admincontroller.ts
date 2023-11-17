@@ -10,6 +10,30 @@ export class AdminController {
       response.status(500).json({ error: 'Error fetching events' });
     }
   }
+  
+  async getAllCategories(request: Request, response: Response) {
+    try {
+      const categories = await prismaClient.category.findMany({
+        select: { id: true, name: true },
+      });
+
+      return response.json(categories);
+    } catch (error) {
+      return response.status(500).json({ error: 'An error occurred' });
+    }
+  }
+
+  async getAllLocals(request: Request, response: Response) {
+    try {
+      const locals = await prismaClient.local.findMany({
+        select: { id: true, name: true },
+      });
+
+      return response.json(locals);
+    } catch (error) {
+      return response.status(500).json({ error: 'An error occurred' });
+    }
+  }
 
   async createEvent(request: Request, response: Response) {
     try {
@@ -34,28 +58,24 @@ export class AdminController {
     }
   }
 
-  async updateEvent(request: Request, response: Response) {
+  async updateEvent(req: Request, res: Response) {
     try {
-      const eventId = parseInt(request.params.id);
-      const { name, date, categoryId, locationId } = request.body;
+      const eventId = req.params.id;
+      const { name, date, categoryId, locationId } = req.body;
 
       const updatedEvent = await prismaClient.event.update({
         where: { id: eventId },
         data: {
           name,
           date,
-          category: {
-            connect: { id: categoryId },
-          },
-          location: {
-            connect: { id: locationId },
-          },
+          categoryId,
+          locationId,
         },
       });
 
-      return response.json(updatedEvent);
+      return res.json(updatedEvent);
     } catch (error) {
-      return response.status(500).json({ error: 'An error occurred' });
+      return res.status(500).json({ error: 'An error occurred' });
     }
   }
 
@@ -77,7 +97,7 @@ export class AdminController {
 
   async updateCategory(request: Request, response: Response) {
     try {
-      const categoryId = parseInt(request.params.id);
+      const categoryId = request.params.id;
       const { name } = request.body;
 
       const updatedCategory = await prismaClient.category.update({
@@ -111,7 +131,7 @@ export class AdminController {
 
   async updateLocal(request: Request, response: Response) {
     try {
-      const localId = parseInt(request.params.id);
+      const localId = request.params.id;
       const { name } = request.body;
 
       const updatedLocal = await prismaClient.local.update({
@@ -128,7 +148,7 @@ export class AdminController {
   }
   async deleteEvent(request: Request, response: Response) {
     try {
-      const eventId = parseInt(request.params.id);
+      const eventId = request.params.id;
 
       await prismaClient.event.delete({
         where: { id: eventId },
@@ -142,7 +162,7 @@ export class AdminController {
 
   async deleteCategory(request: Request, response: Response) {
     try {
-      const categoryId = parseInt(request.params.id);
+      const categoryId = request.params.id;
 
       await prismaClient.category.delete({
         where: { id: categoryId },
@@ -156,7 +176,7 @@ export class AdminController {
 
   async deleteLocal(request: Request, response: Response) {
     try {
-      const localId = parseInt(request.params.id);
+      const localId = request.params.id;
 
       await prismaClient.local.delete({
         where: { id: localId },
