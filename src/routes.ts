@@ -23,7 +23,7 @@ router.delete("/delete-locals/:id", adminController.deleteLocal.bind(adminContro
 
 router.get('/participante/get-events',participant.getAllEvents);
 router.get('/participante/get-events/:local',participant.getEventByLocal);
-router.get('/participante/get-events/:hour',participant.getEventByHour);
+router.get('/participante/get-events/:date',participant.getEventByDate);
 router.get('/participante/get-events/:category',participant.getEventByCategory);
 
 export { router };

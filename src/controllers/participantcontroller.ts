@@ -18,7 +18,7 @@ export class Participantcontroller{
     try {
       const events = await prismaClient.event.findMany({
         where: {
-          local: local,
+          locationId : local,
         },
       });
       res.json(events);
@@ -27,12 +27,12 @@ export class Participantcontroller{
     }
     }
 
-    async getEventByHour(req:Request, res: Response){ // Mostra os eventos de acordo com a data pedida pelo usuario
-        const { hour } = req.params;
+    async getEventByDate(req:Request, res: Response){ // Mostra os eventos de acordo com a data pedida pelo usuario
+        const { date } = req.params;
     try {
       const events = await prismaClient.event.findMany({
         where: {
-          date: new Date(hour),
+          date: new Date(date),
         },
       });
       res.json(events);
@@ -46,7 +46,7 @@ export class Participantcontroller{
     try {
       const events = await prismaClient.event.findMany({
         where: {
-          category: category,
+          categoryId: category,
         },
       });
       res.json(events);
