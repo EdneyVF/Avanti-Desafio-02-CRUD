@@ -154,7 +154,7 @@ export class AdminController {
         where: { id: eventId },
       });
 
-      return response.status(204).send(); // Resposta de sucesso sem conteúdo
+      return response.status(204).send();
     } catch (error) {
       return response.status(500).json({ error: 'An error occurred' });
     }
@@ -168,7 +168,7 @@ export class AdminController {
         where: { id: categoryId },
       });
 
-      return response.status(204).send(); // Resposta de sucesso sem conteúdo
+      return response.status(204).send();
     } catch (error) {
       return response.status(500).json({ error: 'An error occurred' });
     }
@@ -182,9 +182,11 @@ export class AdminController {
         where: { id: localId },
       });
 
-      return response.status(204).send(); // Resposta de sucesso sem conteúdo
+      return response.status(204).send();
     } catch (error) {
       return response.status(500).json({ error: 'An error occurred' });
     }
   }
+
 }
+
