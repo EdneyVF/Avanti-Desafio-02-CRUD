@@ -1,7 +1,34 @@
 import { Request, Response } from 'express';
 import { prismaClient } from '../database/prismaClient';
+import { AuthService } from '../services/authService';
+import jwt from 'jsonwebtoken';
 
 export class AdminController {
+  private authService: AuthService = new AuthService();
+
+  async login(req: Request, res: Response) {
+    const { email, password } = req.body;
+    try {
+      const { token, user } = await this.authService.login(email, password);
+      if (!user.isAdmin) {
+        return res.status(403).json({ error: 'Access denied' });
+      }
+      res.json({ token, userId: user.id });
+    } catch (error) {
+      res.status(400).json({ error: 'An error occurred' });
+    }
+  }
+
+  async signup(req: Request, res: Response) {
+    const { email, password } = req.body;
+    try {
+      const user = await this.authService.signup(email, password, true);
+      res.status(201).json({ userId: user.id });
+    } catch (error) {
+      res.status(400).json({ error: 'An error occurred' });
+    }
+  }
+
   async getAllEvents(request: Request, response: Response) {
     try {
       const events = await prismaClient.event.findMany();
@@ -10,7 +37,7 @@ export class AdminController {
       response.status(500).json({ error: 'Error fetching events' });
     }
   }
-  
+
   async getAllCategories(request: Request, response: Response) {
     try {
       const categories = await prismaClient.category.findMany({
@@ -146,6 +173,7 @@ export class AdminController {
       return response.status(500).json({ error: 'An error occurred' });
     }
   }
+
   async deleteEvent(request: Request, response: Response) {
     try {
       const eventId = request.params.id;
@@ -187,6 +215,4 @@ export class AdminController {
       return response.status(500).json({ error: 'An error occurred' });
     }
   }
-
 }
-
