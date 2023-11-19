@@ -74,6 +74,7 @@ export class ParticipantController {
           categoryId: category,
         },
       });
+      
       res.json(events);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao tentar achar os eventos desta categoria' });
