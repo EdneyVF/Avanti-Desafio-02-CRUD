@@ -22,8 +22,8 @@ router.put("/organizer/update-locals/:id", adminController.updateLocal.bind(admi
 router.delete("/organizer/delete-locals/:id", adminController.deleteLocal.bind(adminController));
 
 router.get('/participante/get-events',participant.getAllEvents);
-router.get('/participante/get-events/:local',participant.getEventByLocal);
-router.get('/participante/get-events/:date',participant.getEventByDate);
-router.get('/participante/get-events/:category',participant.getEventByCategory);
+router.get('/participante/get-events/local/:local',participant.getEventByLocal);
+router.get('/participante/get-events/date/:date',participant.getEventByDate);
+router.get('/participante/get-events/category/:category',participant.getEventByCategory);
 
 export { router };

@@ -1,5 +1,6 @@
 import {Request,Response} from 'express';
 import { prismaClient } from '../database/prismaClient';
+import { PrismaClient } from '@prisma/client';
 
 export class Participantcontroller{
 
@@ -27,7 +28,7 @@ export class Participantcontroller{
     }
     }
 
-    async getEventByDate(req:Request, res: Response){ // Mostra os eventos de acordo com a data pedida pelo usuario
+    async getEventByDate(req:Request, res: Response){  // Mostra os eventos de acordo com a data pedida pelo usuario
         const { date } = req.params;
     try {
       const events = await prismaClient.event.findMany({
@@ -42,13 +43,14 @@ export class Participantcontroller{
     }
 
     async getEventByCategory(req:Request, res: Response){  // Mostra todos os eventos de acordo com a categoria pedida pelo usuario
-        const { category } = req.params;
+    const { category } = req.params;
     try {
       const events = await prismaClient.event.findMany({
         where: {
           categoryId: category,
         },
       });
+      
       res.json(events);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao tentar achar os eventos desta categoria' });
