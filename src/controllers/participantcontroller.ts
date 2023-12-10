@@ -80,4 +80,34 @@ export class ParticipantController {
       res.status(500).json({ error: 'Erro ao tentar achar os eventos desta categoria' });
     }
   }
+  
+  async getEventsByFilter(req: Request, res: Response) {
+    const eventName = typeof req.query.event === 'string' ? req.query.event : undefined;
+    const localName = typeof req.query.local === 'string' ? req.query.local : undefined;
+    const categoryName = typeof req.query.category === 'string' ? req.query.category : undefined;
+  
+    try {
+      const events = await prismaClient.event.findMany({
+        where: {
+          AND: [
+            eventName ? { name: { contains: eventName, mode: "insensitive" } } : {},
+            localName ? { location: { name: { contains: localName, mode: "insensitive" } } } : {},
+            categoryName ? { category: { name: { contains: categoryName, mode: "insensitive" } } } : {},
+          ],
+        },
+        include: {
+          location: true,
+          category: true,
+        },
+      });
+      console.log(events); // Imprime os eventos no console
+      res.json(events);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao tentar achar os eventos com os filtros especificados' });
+    }
+  }
+  
+
+    
 }
+
