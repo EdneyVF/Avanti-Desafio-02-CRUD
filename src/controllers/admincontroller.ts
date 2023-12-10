@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { prismaClient } from '../database/prismaClient';
 import { AuthService } from '../services/authService';
-import jwt from 'jsonwebtoken';
 
 export class AdminController {
   private authService: AuthService = new AuthService();
